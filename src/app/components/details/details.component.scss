@@ -1,0 +1,11 @@
+button,
+a {
+  color: orange;
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+}
+i {
+  cursor: pointer;
+}

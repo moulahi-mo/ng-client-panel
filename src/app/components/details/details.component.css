@@ -1,0 +1,15 @@
+button,
+a {
+  color: orange;
+}
+
+button:hover,
+a:hover {
+  background-color: black;
+  color: white;
+}
+
+i {
+  cursor: pointer;
+}
+/*# sourceMappingURL=details.component.css.map */

@@ -1,0 +1,25 @@
+<h1 class="text-center display-4 orange-text my-3">
+  Client Panel
+  <span [ngClass]="">
+    {{ query.action == "register" ? "Register" : "Login" }}
+  </span>
+</h1>
+<form class="mt-5 mx-auto">
+  <div class="input-field col s12">
+    <input type="email" name="email" class="" />
+    <label>Email</label>
+  </div>
+  <div class="input-field col s12">
+    <input type="password" name="password" class="" />
+    <label>Password</label>
+  </div>
+  <div *ngIf="query.action == 'register'" class="input-field col s12">
+    <input type="password" name="password" class="" />
+    <label>Confirm Password</label>
+  </div>
+
+  <a
+    class="d-block mx-auto btn-floating btn-large waves-effect waves-light black"
+    ><i class="material-icons">login</i></a
+  >
+</form>
