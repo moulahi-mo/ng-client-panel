@@ -1,1 +1,82 @@
-<p>dash works!</p>
+<section class="text-center mt-5">
+  <h2
+    class="my-3 orange-text text-darken-4 flow-text d-flex justify-content-center"
+  >
+    <i class="material-icons small mr-2">supervisor_account</i>
+    Clients Manager
+  </h2>
+  <!-- ? serach bar -->
+  <article class="row d-flex justify-content-between py-5 my-5">
+    <div class="col-sm-6 col-12 order-2 order-sm-1">
+      <nav class="orange lighten-0 hoverable">
+        <div class="nav-wrapper">
+          <form>
+            <div class="input-field">
+              <input
+                id="search"
+                type="search"
+                required
+                placeholder="Search client.."
+                class="black-text"
+              />
+              <label class="label-icon" for="search"
+                ><i class="material-icons black-text">search</i></label
+              >
+              <i class="material-icons">close</i>
+            </div>
+          </form>
+        </div>
+      </nav>
+    </div>
+    <div
+      class="col-sm-6 col-12 order-1 order-sm-2 my-4 my-sm-0 d-flex justify-content-around align-items-center"
+    >
+      <span class="orange-text text-darken-4 flow-text z-depth-5 p-2">
+        Total Balance : 7854£</span
+      >
+      <i
+        routerLink="/add"
+        data-position="right"
+        data-tooltip="Add new client"
+        class="tooltipped material-icons medium"
+        >add</i
+      >
+    </div>
+  </article>
+  <!-- ? table -->
+  <article class="mt-5">
+    <table class="striped highlight centered responsive-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Balance</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>Alvin</td>
+          <td>Eclair</td>
+          <td>$0.87</td>
+          <td>
+            <a [routerLink]="['/client', 1]">
+              <i class="material-icons small">loupe</i>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>Alvin</td>
+          <td>Eclair</td>
+          <td>$0.87</td>
+          <td>
+            <a [routerLink]="['/client', 1]">
+              <i class="material-icons small">loupe</i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </article>
+</section>

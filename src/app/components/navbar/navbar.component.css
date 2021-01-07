@@ -2,4 +2,18 @@
   background-color: black;
   color: white;
 }
+
+.navbar-toggler {
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+}
+
+.navbar-collapse li a {
+  padding-left: 10px !important;
+}
+
+.navbar-collapse li a:hover {
+  background-color: transparent;
+}
 /*# sourceMappingURL=navbar.component.css.map */

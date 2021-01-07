@@ -23,6 +23,9 @@ export function Ui(): void {
 
   var elems = document.querySelectorAll('.parallax');
   var instances = M.Parallax.init(elems);
+
+  var elems = document.querySelectorAll('.tooltipped');
+  var instances = M.Tooltip.init(elems);
 }
 
 // ! interfaces

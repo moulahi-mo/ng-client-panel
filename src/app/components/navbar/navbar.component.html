@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-sm navbar-light orange">
   <div class="container">
     <a class="navbar-brand d-flex" routerLink="/">
-      <i class="material-icons large">device_hub</i>
+      <i class="material-icons large mr-2">device_hub</i>
       Client Panel</a
     >
     <button
@@ -42,7 +42,7 @@
             routerLinkAvtiveOptions="{exact:true}"
             [routerLink]="['/auth', 'register']"
             [queryParams]="{ action: 'register' }"
-            >Register</a
+            >Signup</a
           >
         </li>
         <li class="nav-item">
@@ -80,7 +80,7 @@
                 class="text-dark text-decoration-none"
                 routerLinkActive="active"
                 routerLinkAvtiveOptions="{exact:true}"
-                routerLink="/auth"
+                [routerLink]="['/auth', 'login']"
                 >Logout</a
               >
             </li>
