@@ -11,32 +11,82 @@
       <p class="orange-text lead">Back to dashboard</p>
     </div>
     <div class="d-flex">
-      <a href="#" class="waves-effect waves-light btn"
+      <a
+        (click)="editClient()"
+        [routerLink]="['/edit', client.id]"
+        [queryParams]="{ action: 'edit', balance: client.balance }"
+        class="waves-effect waves-light btn mr-2"
         ><i class="material-icons left">post_add</i>Edit</a
       >
-      <a href="#" class="waves-effect waves-light btn"
+      <a (click)="deleteClient()" class="waves-effect waves-light btn"
         ><i class="material-icons left">remove_circle</i>Delete</a
       >
     </div>
   </article>
+  <!--?  client delted/updated balance success-->
+  <div
+    *ngIf="isDeleted || isUpBalanced"
+    class="alert alert-info text-center lead"
+  >
+    <h4>
+      {{ isUpBalanced ? "Balance" : "Client" }} is
+      {{ isUpBalanced ? "updated" : "deleted" }} successfully
+    </h4>
+  </div>
   <div class="card mt-5">
-    <div class="card-header">Name</div>
+    <div
+      class="card-header bg-transparent flow-text orange-text text-darken-4 text-center"
+    >
+      {{ client.firstName | titlecase }} {{ client.lastName | titlecase }}
+    </div>
     <div class="row card-body d-flex justify-content-between">
       <article class="col-8">
-        <h3 class="lead my-3">Client Id</h3>
+        <h3 class="lead my-3 orange-text text-darken-3 lead ml-3">
+          Client Id : {{ client.id }}
+        </h3>
         <ul class="list-group-flush">
-          <li class="list-group-item list-group-item-dark">client email</li>
-          <li class="list-group-item list-group-item-dark">client phone</li>
+          <li class="list-group-item list-group-item-light lead">
+            Client Email : {{ client.email | titlecase }}
+          </li>
+          <li class="list-group-item list-group-item-light lead">
+            Client Phone : {{ client.phone }}
+          </li>
+          <li class="list-group-item list-group-item-light lead">
+            Client Joind date : {{ client.created | date: "medium" }}
+          </li>
         </ul>
       </article>
       <article class="col-4 d-flex flex-column align-self-center">
-        <h4 class="text-danger text-center lead">Balance : 55441$</h4>
-        <div class="input-field col s12">
+        <h4 class="text-danger text-center lead font-weight-bold">
+          Balance : {{ client.balance | currency: "EUR":"symbol":"4.0" }}
+
+          <a
+            (click)="isBalanced = !isBalanced"
+            class="btn-floating btn-small waves-effect waves-light black ml-3"
+            ><i class="material-icons">create</i></a
+          >
+        </h4>
+        <div *ngIf="isBalanced" class="input-field col s12">
           <i class="material-icons prefix">create</i>
-          <input id="icon_prefix" type="number" class="validate" />
+          <input
+            [(ngModel)]="client.balance"
+            name="balance"
+            id="icon_prefix"
+            type="number"
+            class="validate"
+          />
           <label for="icon_prefix">Update Value</label>
+          <a
+            (click)="updateBalance()"
+            class="d-block mx-auto waves-effect waves-light btn black"
+            >Update</a
+          >
         </div>
       </article>
     </div>
   </div>
 </section>
+<!-- ? if error -->
+<div *ngIf="isError" class="alert alert-danger text-center">
+  <h4>{{ isError }}</h4>
+</div>

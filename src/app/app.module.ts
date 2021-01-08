@@ -19,6 +19,7 @@ import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { AddClientComponent } from './components/add-client/add-client.component';
 import { DetailsComponent } from './components/details/details.component';
+import { DbUsersService } from './services/db-users.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +40,7 @@ import { DetailsComponent } from './components/details/details.component';
     HttpClientModule,
     FormsModule,
   ],
-  providers: [DbClientsService, AuthClientsService],
+  providers: [DbClientsService, AuthClientsService, DbUsersService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

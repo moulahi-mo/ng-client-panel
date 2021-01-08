@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'dashboard', component: DashComponent },
   { path: 'add', component: AddClientComponent },
+  { path: 'edit/:id', component: AddClientComponent },
   { path: 'client/:id', component: DetailsComponent },
   { path: 'auth/register', component: AuthComponent },
   { path: 'auth/login', component: AuthComponent },

@@ -31,6 +31,7 @@ export function Ui(): void {
 // ! interfaces
 
 export interface Client {
+  id?: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -38,7 +39,8 @@ export interface Client {
   balance?: number;
   created: Date;
 }
-export type Cred = {
+export type User = {
+  name: string;
   email: string;
   password: string;
 };

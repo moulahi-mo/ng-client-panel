@@ -4,6 +4,10 @@
   </span>
 </h1>
 <form class="mt-5 mx-auto">
+  <div *ngIf="query.action == 'register'" class="input-field col s12">
+    <input type="text" name="name" class="" />
+    <label>Name</label>
+  </div>
   <div class="input-field col s12">
     <input type="email" name="email" class="" />
     <label>Email</label>

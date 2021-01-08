@@ -1,4 +1,4 @@
-<section class="text-center mt-5">
+<section class="text-center my-5">
   <h2
     class="my-3 orange-text text-darken-4 flow-text d-flex justify-content-center"
   >
@@ -13,6 +13,9 @@
           <form>
             <div class="input-field">
               <input
+                (keyup)="onSearch()"
+                [(ngModel)]="term"
+                name="search"
                 id="search"
                 type="search"
                 required
@@ -32,19 +35,26 @@
       class="col-sm-6 col-12 order-1 order-sm-2 my-4 my-sm-0 d-flex justify-content-around align-items-center"
     >
       <span class="orange-text text-darken-4 flow-text z-depth-5 p-2">
-        Total Balance : 7854£</span
+        Total Balance : {{ total | currency: "EUR":"symbol":"4.0" }}
+      </span>
+      <i
+        (click)="isCard = !isCard"
+        class="material-icons small tooltipped ml-2"
+        data-position="top"
+        data-tooltip="Cards/table view"
+        >{{ isCard ? "table_view" : "recent_actors" }}</i
       >
       <i
         routerLink="/add"
         data-position="right"
         data-tooltip="Add new client"
-        class="tooltipped material-icons medium"
+        class="tooltipped material-icons medium border-0"
         >add</i
       >
     </div>
   </article>
-  <!-- ? table -->
-  <article class="mt-5">
+  <!-- ! table ------------------------------------------>
+  <article *ngIf="clients.length !== null && !isCard" class="my-5">
     <table class="striped highlight centered responsive-table">
       <thead>
         <tr>
@@ -56,27 +66,45 @@
       </thead>
 
       <tbody>
-        <tr>
-          <td>Alvin</td>
-          <td>Eclair</td>
-          <td>$0.87</td>
+        <tr [id]="i" *ngFor="let client of clients; index as i">
           <td>
-            <a [routerLink]="['/client', 1]">
-              <i class="material-icons small">loupe</i>
-            </a>
+            {{ client.firstName | titlecase }} {{ client.lastName | titlecase }}
           </td>
-        </tr>
-        <tr>
-          <td>Alvin</td>
-          <td>Eclair</td>
-          <td>$0.87</td>
+          <td>{{ client.email }}</td>
+          <td>{{ client.balance | currency: "EUR":"symbol":"4.0" }}</td>
           <td>
-            <a [routerLink]="['/client', 1]">
+            <a [routerLink]="['/client', client.id]">
               <i class="material-icons small">loupe</i>
             </a>
           </td>
         </tr>
       </tbody>
     </table>
+  </article>
+  <!-- ! cards ------------------------------------------>
+  <article *ngIf="clients.length !== null && isCard" class="my-5">
+    <div class="row">
+      <div [id]="i" *ngFor="let client of clients; index as i" class="col">
+        <div class="card px-0 py-3">
+          <h5 class="orange-text text-darken-4">
+            {{ client.firstName | titlecase }} {{ client.lastName | titlecase }}
+          </h5>
+
+          <div class="card-content pt-3 px-1">
+            <p class="lead font-weight-normal black-text pb-2">
+              {{ client.email }}
+            </p>
+            <p class="text-muted orange-text text-darken-4">
+              Balance : {{ client.balance | currency: "EUR":"symbol":"4.0" }}
+            </p>
+            <a
+              [routerLink]="['/client', client.id]"
+              class="btn-floating halfway-fab waves-effect waves-light blue darken-2"
+              ><i class="material-icons">read_more</i></a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
   </article>
 </section>

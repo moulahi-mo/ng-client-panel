@@ -3,34 +3,160 @@
     class="orange-text text-darken-4 flow-text d-flex justify-content-center my-5 mb-5"
   >
     <i class="material-icons small mr-2">how_to_reg</i>
-    Add a new Client
+    {{ query.action == "edit" ? "Edit" : "Add New" }} Client
   </h2>
+  <article class="d-flex justify-content-between mt-3">
+    <div class="d-flex">
+      <i [routerLink]="['/dashboard']" class="material-icons small"
+        >arrow_back</i
+      >
+      <p class="orange-text lead">Back to Dashboard</p>
+    </div>
+  </article>
+  <!--?  client add success-->
+  <div *ngIf="isAdd || isEdited" class="alert alert-success text-center">
+    <h4>client {{ isEdited ? "edited" : "added" }} successfully</h4>
+  </div>
   <div class="card">
-    <form>
+    <form #f="ngForm" (ngSubmit)="onSubmit()">
       <div class="input-field col s12 l6">
-        <input type="text" id="first_name" name="firstName" />
+        <input
+          [ngClass]="{
+            valid: firstName.valid,
+            invalid: firstName.invalid && (firstName.dirty || firstName.touched)
+          }"
+          [(ngModel)]="client.firstName"
+          #firstName="ngModel"
+          required
+          minlength="3"
+          type="text"
+          id="first_name"
+          name="firstName"
+        />
         <label for="first_name">First Name</label>
+        <small
+          *ngIf="
+            (firstName.invalid || firstName.errors?.minlength) &&
+            (firstName.dirty || firstName.touched)
+          "
+          class="text-muted invalid"
+        >
+          name non valid must at least 3 chars
+        </small>
       </div>
       <div class="input-field col s12 l6">
-        <input type="text" id="last_name" name="lastName" />
+        <input
+          [ngClass]="{
+            valid: lastName.valid,
+            invalid: lastName.invalid && (lastName.dirty || lastName.touched)
+          }"
+          [(ngModel)]="client.lastName"
+          #lastName="ngModel"
+          required
+          minlength="3"
+          type="text"
+          id="last_name"
+          name="lastName"
+        />
         <label for="last_name">Last Name</label>
+        <small
+          *ngIf="
+            (lastName.invalid || lastName.errors?.minlength) &&
+            (lastName.dirty || lastName.touched)
+          "
+          class="text-muted invalid"
+        >
+          name non valid must at least 3 chars
+        </small>
       </div>
       <div class="input-field col s12">
-        <input type="email" id="email" name="email" />
+        <input
+          [ngClass]="{
+            valid: email.valid,
+            invalid: email.invalid && (email.dirty || email.touched)
+          }"
+          [(ngModel)]="client.email"
+          #email="ngModel"
+          required
+          email
+          type="email"
+          id="email"
+          name="email"
+        />
         <label>Email</label>
+        <small
+          *ngIf="
+            (email.invalid || email.errors?.email) &&
+            (email.dirty || email.touched)
+          "
+          class="text-muted invalid"
+        >
+          email non valid
+        </small>
       </div>
       <div class="input-field col s12 l6">
-        <input type="tel" id="phone" name="phone" />
+        <input
+          [ngClass]="{
+            valid: phone.valid,
+            invalid: phone.invalid && (phone.dirty || phone.touched)
+          }"
+          [(ngModel)]="client.phone"
+          #phone="ngModel"
+          required
+          maxlength="10"
+          type="tel"
+          id="phone"
+          name="phone"
+          pattern="[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}"
+        />
         <label>Phone</label>
+        <small
+          *ngIf="
+            (phone.invalid || phone.errors?.pattern) &&
+            (phone.dirty || phone.touched)
+          "
+          class="text-muted invalid"
+        >
+          phone number non valid must at least 10 chars
+        </small>
       </div>
       <div class="input-field col s12 l6">
-        <input type="number" id="balance" name="balance" />
+        <input
+          [ngClass]="{
+            valid: balance.valid,
+            invalid: balance.invalid && (balance.dirty || balance.touched)
+          }"
+          [(ngModel)]="client.balance"
+          #balance="ngModel"
+          required
+          min="0"
+          type="number"
+          id="balance"
+          name="balance"
+        />
         <label>Balance</label>
+        <small
+          *ngIf="
+            (balance.invalid || balance.errors?.min) &&
+            (balance.dirty || balance.touched)
+          "
+          class="text-muted invalid"
+        >
+          balance is requierd
+        </small>
       </div>
-      <a
+      <button
+        [disabled]="!f.valid"
         class="my-2 d-block mx-auto btn-floating btn-large waves-effect waves-light black"
-        ><i class="material-icons">add</i></a
       >
+        <i class="material-icons">{{
+          query.action == "edit" ? "create" : "add"
+        }}</i>
+      </button>
     </form>
+    <!-- ? if error -->
+    <div *ngIf="isError" class="alert alert-danger text-center">
+      <h4>{{ isError }}</h4>
+    </div>
   </div>
 </section>
