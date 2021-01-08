@@ -1,16 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { DbClientsService } from '../../services/db-clients.service';
 import { Ui } from '../../models/models';
+import { SettingsService } from '../../services/settings.service';
+import { Settings } from '../../models/models';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  constructor(private dbs: DbClientsService) {}
+  register: boolean = false;
+
+  constructor(
+    private dbs: DbClientsService,
+    private settings: SettingsService
+  ) {}
 
   ngOnInit() {
     Ui();
+    this.settings.getSettings().subscribe({
+      next(data) {
+        console.log(data);
+        this.register = data.registration;
+      },
+    });
+    console.log(this.register);
+    // ( (data)=> {
+    //   data.next()
+
+    //   console.log('i m nav', data);
+    //   this.register = data.registration;
+    // });
+
     // this.initClients();
   }
 

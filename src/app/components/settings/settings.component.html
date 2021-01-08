@@ -6,21 +6,44 @@
     Edit Your Settings
   </h3>
 
-  <div class="card-body">
+  <article class="d-flex justify-content-between mt-3 ml-4">
+    <div class="d-flex">
+      <i [routerLink]="['/dashboard']" class="material-icons small"
+        >arrow_back</i
+      >
+      <p class="orange-text lead">Back to Dashboard</p>
+    </div>
+  </article>
+  <!--?  client add success-->
+  <div *ngIf="isSet" class="alert alert-warning text-center">
+    <h4>Client settings updated successfully</h4>
+  </div>
+
+  <form #f="ngForm" class="card-body">
     <ul class="list-group">
       <li class="list-group-item d-flex">
         <p>
           <label>
-            <input type="checkbox" />
+            <input
+              [(ngModel)]="set.registration"
+              name="registration"
+              #reg="ngModel"
+              type="checkbox"
+            />
             <span></span>
           </label>
         </p>
-        <span>Allow registration</span>
+        <span>Disable registration</span>
       </li>
       <li class="list-group-item d-flex">
         <p>
           <label>
-            <input type="checkbox" />
+            <input
+              [(ngModel)]="set.balanceAdd"
+              name="balanceAdd"
+              #balanceAdd="ngModel"
+              type="checkbox"
+            />
             <span></span>
           </label>
         </p>
@@ -29,7 +52,12 @@
       <li class="list-group-item d-flex">
         <p>
           <label>
-            <input type="checkbox" />
+            <input
+              [(ngModel)]="set.balanceEdit"
+              name="balanceEdit"
+              #balanceEdit="ngModel"
+              type="checkbox"
+            />
             <span></span>
           </label>
         </p>
@@ -37,8 +65,10 @@
       </li>
     </ul>
     <a
+      (click)="onEdit(f)"
+      type="submit"
       class="d-block mx-auto my-2 btn-floating btn-large waves-effect waves-light black"
-      ><i class="material-icons">send</i></a
+      ><i class="material-icons">group_add</i></a
     >
-  </div>
+  </form>
 </div>

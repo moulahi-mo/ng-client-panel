@@ -2,8 +2,9 @@ i {
   cursor: pointer;
 }
 
-i {
+i,
+button {
   border: 0 !important;
   outline: 0 !important;
 }
-/*# sourceMappingURL=dash.component.css.map */
+/*# sourceMappingURL=add-client.component.css.map */
