@@ -1,6 +1,10 @@
 <nav class="navbar navbar-expand-sm navbar-light orange">
   <div class="container">
-    <a class="navbar-brand d-flex" routerLink="/">
+    <a *ngIf="!isLogin" class="navbar-brand d-flex" routerLink="/">
+      <i class="material-icons large mr-2">device_hub</i>
+      Client Panel</a
+    >
+    <a *ngIf="isLogin" class="navbar-brand d-flex">
       <i class="material-icons large mr-2">device_hub</i>
       Client Panel</a
     >
@@ -17,7 +21,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
+        <li *ngIf="isLogin" class="nav-item">
           <a
             class="nav-link"
             routerLinkActive="active"
@@ -26,7 +30,7 @@
             >Dashboard</a
           >
         </li>
-        <li class="nav-item">
+        <li *ngIf="isLogin" class="nav-item">
           <a
             class="nav-link"
             routerLinkActive="active"
@@ -35,8 +39,13 @@
             >Settings</a
           >
         </li>
-        <li *ngIf="!register" class="nav-item">
+        <li
+          *ngIf="!isLogin"
+          class="nav-item"
+          [ngClass]="{ invisible: isLogin }"
+        >
           <a
+            *ngIf="!register"
             class="nav-link"
             routerLinkActive="active"
             routerLinkAvtiveOptions="{exact:true}"
@@ -45,7 +54,11 @@
             >Signup</a
           >
         </li>
-        <li class="nav-item">
+        <li
+          *ngIf="!isLogin"
+          class="nav-item"
+          [ngClass]="{ invisible: isLogin }"
+        >
           <a
             class="nav-link"
             routerLinkActive="active"
@@ -55,7 +68,7 @@
             >Login</a
           >
         </li>
-        <li class="nav-item dropdown">
+        <li *ngIf="isLogin" class="nav-item dropdown">
           <a
             routerLinkActive="active"
             routerLinkAvtiveOptions="{exact:true}"
@@ -77,10 +90,10 @@
             </li>
             <li>
               <a
+                (click)="logout()"
                 class="text-dark text-decoration-none"
                 routerLinkActive="active"
                 routerLinkAvtiveOptions="{exact:true}"
-                [routerLink]="['/auth', 'login']"
                 >Logout</a
               >
             </li>

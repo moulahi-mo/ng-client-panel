@@ -1,4 +1,4 @@
-<section class="m-auto mt-5">
+<section class="m-auto mt-5" *ngIf="client">
   <h2
     class="orange-text text-darken-4 flow-text d-flex justify-content-center my-5 mb-5"
   >
@@ -33,7 +33,9 @@
           id="first_name"
           name="firstName"
         />
-        <label for="first_name">First Name</label>
+        <label [ngClass]="{ active: query.action == 'edit' }" for="first_name"
+          >First Name</label
+        >
         <small
           *ngIf="
             (firstName.invalid || firstName.errors?.minlength) &&
@@ -58,7 +60,9 @@
           id="last_name"
           name="lastName"
         />
-        <label for="last_name">Last Name</label>
+        <label [ngClass]="{ active: query.action == 'edit' }" for="last_name"
+          >Last Name</label
+        >
         <small
           *ngIf="
             (lastName.invalid || lastName.errors?.minlength) &&
@@ -83,7 +87,7 @@
           id="email"
           name="email"
         />
-        <label>Email</label>
+        <label [ngClass]="{ active: query.action == 'edit' }">Email</label>
         <small
           *ngIf="
             (email.invalid || email.errors?.email) &&
@@ -109,7 +113,7 @@
           name="phone"
           pattern="[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}"
         />
-        <label>Phone</label>
+        <label [ngClass]="{ active: query.action == 'edit' }">Phone</label>
         <small
           *ngIf="
             (phone.invalid || phone.errors?.pattern) &&
@@ -134,7 +138,7 @@
           id="balance"
           name="balance"
         />
-        <label>Balance</label>
+        <label [ngClass]="{ active: query.action == 'edit' }">Balance</label>
         <small
           *ngIf="
             (balance.invalid || balance.errors?.min) &&

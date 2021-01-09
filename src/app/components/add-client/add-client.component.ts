@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DbClientsService } from 'src/app/services/db-clients.service';
+import { SettingsService } from '../../services/settings.service';
 import { Client } from '../../models/models';
 declare var firebase: any;
 @Component({
@@ -16,13 +17,23 @@ export class AddClientComponent implements OnInit {
   query: object;
   id: string;
   isEdited: boolean = false;
+  balanceAdd: boolean;
+  balanceEdit: boolean;
   constructor(
     private dbC: DbClientsService,
     private route: ActivatedRoute,
-    private nav: Router
+    private nav: Router,
+    private settings: SettingsService
   ) {}
 
   ngOnInit(): void {
+    this.settings.getSettings().subscribe({
+      next(data) {
+        this.balanceAdd = data.balanceAdd;
+        this.balanceEdit = data.balanceEdit;
+        console.log(this.balanceAdd, this.balanceEdit);
+      },
+    });
     this.query = this.route.snapshot.queryParams;
     this.id = this.route.snapshot.paramMap.get('id');
     console.log(this.query);

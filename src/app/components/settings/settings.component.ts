@@ -24,8 +24,9 @@ export class SettingsComponent implements OnInit {
   }
 
   public onEdit(f: HTMLFormElement) {
-    console.log(f.value);
     this.set = f.value;
+    console.log(this.set);
+    //! set values on local storage
     this.setLocal.setSettings(this.set);
 
     this.isSet = true;

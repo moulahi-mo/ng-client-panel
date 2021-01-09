@@ -10,7 +10,7 @@
     <div class="col-sm-6 col-12 order-2 order-sm-1">
       <nav class="orange lighten-0 hoverable">
         <div class="nav-wrapper">
-          <form>
+          <form #f>
             <div class="input-field">
               <input
                 (keyup)="onSearch()"
@@ -25,7 +25,7 @@
               <label class="label-icon" for="search"
                 ><i class="material-icons black-text">search</i></label
               >
-              <i class="material-icons">close</i>
+              <i (click)="f.reset()" class="material-icons">close</i>
             </div>
           </form>
         </div>
@@ -53,8 +53,15 @@
       >
     </div>
   </article>
-  <!-- ! table ------------------------------------------>
-  <article *ngIf="clients.length !== null && !isCard" class="my-5">
+  <!-- ! loader ----------------------------------->
+  <div *ngIf="isLoading" class="progress mx-auto z-depth-3">
+    <div class="indeterminate orange darken-3"></div>
+  </div>
+  <article
+    *ngIf="clients.length !== null && !isCard && !isLoading"
+    class="my-5"
+  >
+    <!-- ! table ------------------------------------------>
     <table class="striped highlight centered responsive-table">
       <thead>
         <tr>
@@ -82,7 +89,7 @@
     </table>
   </article>
   <!-- ! cards ------------------------------------------>
-  <article *ngIf="clients.length !== null && isCard" class="my-5">
+  <article *ngIf="clients.length !== null && isCard && !isError" class="my-5">
     <div class="row">
       <div [id]="i" *ngFor="let client of clients; index as i" class="col">
         <div class="card px-0 py-3">
@@ -107,4 +114,8 @@
       </div>
     </div>
   </article>
+  <!-- ? if error -->
+  <div *ngIf="isError" class="alert alert-danger text-center">
+    <h4>{{ isError }}</h4>
+  </div>
 </section>

@@ -3,26 +3,126 @@
     {{ query.action == "register" ? "Signup" : "Login" }}
   </span>
 </h1>
-<form class="mt-5 mx-auto">
+<form #f="ngForm" (ngSubmit)="onSubmit(f)" class="mt-5 mx-auto">
   <div *ngIf="query.action == 'register'" class="input-field col s12">
-    <input type="text" name="name" class="" />
+    <input
+      [ngClass]="{
+        valid: name.valid && (name.dirty || name.touched),
+        invalid:
+          (name.invalid || name.errors?.minlength) &&
+          (name.dirty || name.touched)
+      }"
+      [(ngModel)]="user.name"
+      #name="ngModel"
+      required
+      minlength="3"
+      type="text"
+      name="name"
+      class=""
+    />
     <label>Name</label>
+    <small
+      *ngIf="
+        (name.invalid || name.errors?.minlength) && (name.dirty || name.touched)
+      "
+      class="text-muted red-text"
+      >name is invalid</small
+    >
   </div>
   <div class="input-field col s12">
-    <input type="email" name="email" class="" />
+    <input
+      [ngClass]="{
+        valid: email.valid && (email.dirty || email.touched),
+        invalid:
+          (email.invalid || email.errors?.pattern) &&
+          (email.dirty || email.touched)
+      }"
+      [(ngModel)]="user.email"
+      #email="ngModel"
+      required
+      pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)"
+      type="email"
+      name="email"
+      class=""
+    />
     <label>Email</label>
+    <small
+      *ngIf="
+        (email.invalid || email.errors?.pattern) &&
+        (email.dirty || email.touched)
+      "
+      class="text-muted red-text"
+      >email is invalid</small
+    >
   </div>
   <div class="input-field col s12">
-    <input type="password" name="password" class="" />
+    <input
+      [ngClass]="{
+        valid: password.valid && (password.dirty || password.touched),
+        invalid:
+          (password.invalid || password.errors?.pattern) &&
+          (password.dirty || password.touched)
+      }"
+      [(ngModel)]="user.password"
+      #password="ngModel"
+      required
+      pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}"
+      type="password"
+      name="password"
+      class=""
+    />
     <label>Password</label>
+    <small
+      *ngIf="
+        (password.invalid || password.errors?.pattern) &&
+        (password.dirty || password.touched)
+      "
+      class="text-muted red-text"
+      >password is invalid</small
+    >
   </div>
   <div *ngIf="query.action == 'register'" class="input-field col s12">
-    <input type="password" name="password" class="" />
+    <input
+      [ngClass]="{
+        valid:
+          cpassword.valid &&
+          password.value === cpassword.value &&
+          (cpassword.dirty || cpassword.touched),
+        invalid:
+          (cpassword.invalid ||
+            cpassword.errors?.pattern ||
+            password?.value !== cpassword?.value) &&
+          (cpassword.dirty || cpassword.touched)
+      }"
+      [(ngModel)]="user.cpassword"
+      #cpassword="ngModel"
+      required
+      pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,}"
+      type="password"
+      name="cpassword"
+      class=""
+    />
     <label>Confirm Password</label>
+    <small
+      *ngIf="
+        (cpassword.invalid ||
+          cpassword.errors?.pattern ||
+          cpassword.value !== password.value) &&
+        (cpassword.dirty || cpassword.touched)
+      "
+      class="text-muted red-text"
+      >password is not the same</small
+    >
   </div>
 
-  <a
+  <button
+    [disabled]="!f.valid && !cpassword?.valid"
     class="d-block mx-auto btn-floating btn-large waves-effect waves-light black"
-    ><i class="material-icons">login</i></a
   >
+    <i class="material-icons">login</i>
+  </button>
 </form>
+<!-- ? if error -->
+<div *ngIf="isError" class="alert alert-danger text-center">
+  <h4>{{ isError }}</h4>
+</div>

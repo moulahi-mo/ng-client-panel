@@ -40,9 +40,12 @@ export interface Client {
   created: Date;
 }
 export type User = {
+  id?: string;
   name: string;
   email: string;
   password: string;
+  cpassword?: string;
+  data?: () => any;
 };
 export interface Settings {
   registration: boolean;

@@ -1,4 +1,4 @@
-<section class="mx-auto mt-5">
+<section class="mx-auto mt-5" *ngIf="client !== null">
   <h2
     class="text-center orange-text text-darken-4 flow-text d-flex justify-content-center my-3"
   >
@@ -75,7 +75,7 @@
             type="number"
             class="validate"
           />
-          <label for="icon_prefix">Update Value</label>
+          <label class="active" for="icon_prefix">Update Value</label>
           <a
             (click)="updateBalance()"
             class="d-block mx-auto waves-effect waves-light btn black"

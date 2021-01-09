@@ -13,6 +13,8 @@ export class DashComponent implements OnInit {
   total: number;
   term: string = null;
   isCard: boolean = false;
+  isLoading: boolean = false;
+  isError: string = null;
   constructor(private dbS: DbClientsService) {}
 
   ngOnInit(): void {
@@ -33,21 +35,27 @@ export class DashComponent implements OnInit {
   }
   //! get clients from db
   public initClients() {
-    this.dbS.getClients().subscribe((data) => {
-      data.docs.forEach((doc) => {
-        this.client = {
-          id: doc.id,
-          firstName: doc.data().firstName,
-          lastName: doc.data().lastName,
-          email: doc.data().email,
-          phone: doc.data().phone,
-          balance: doc.data().balance,
-          created: doc.data().created.toDate(),
-        };
-        this.clients.unshift(this.client);
-        this.totalBalance();
-      });
-    });
+    this.isLoading = true;
+    this.dbS.getClients().subscribe(
+      (data) => {
+        data.docs.forEach((doc) => {
+          this.client = {
+            id: doc.id,
+            firstName: doc.data().firstName,
+            lastName: doc.data().lastName,
+            email: doc.data().email,
+            phone: doc.data().phone,
+            balance: doc.data().balance,
+            created: doc.data().created.toDate(),
+          };
+          this.clients.unshift(this.client);
+          this.totalBalance();
+          this.isLoading = false;
+          this.isError = null;
+        });
+      },
+      (err) => (this.isError = err)
+    );
   }
   //! calc balance total
   public totalBalance() {
@@ -62,9 +70,9 @@ export class DashComponent implements OnInit {
     console.log(this.term);
     this.clients.filter((client, index) => {
       if (
-        client.email.includes(this.term.toLowerCase()) ||
-        client.firstName.includes(this.term.toLowerCase()) ||
-        client.lastName.includes(this.term.toLowerCase())
+        client.email.toLowerCase().includes(this.term.toLowerCase()) ||
+        client.firstName.toLowerCase().includes(this.term.toLowerCase()) ||
+        client.lastName.toLowerCase().includes(this.term.toLowerCase())
       ) {
         document.getElementById(String(index)).classList.remove('d-none');
       } else {
