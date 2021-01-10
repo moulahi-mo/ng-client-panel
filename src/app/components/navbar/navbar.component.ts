@@ -57,6 +57,7 @@ export class NavbarComponent implements OnInit {
   }
   public logout() {
     this.auth.logout();
+    this.prof.removeProfile();
     this.isLogin = false;
     console.log('user is logout');
     this.route.navigate(['/']);

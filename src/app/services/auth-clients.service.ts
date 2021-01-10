@@ -14,7 +14,9 @@ export class AuthClientsService {
     return from(auth.createUserWithEmailAndPassword(email, pass));
   }
   public login(email: string, pass: string): Observable<any> {
-    return from(auth.signInWithEmailAndPassword(email, pass));
+    return from(auth.signInWithEmailAndPassword(email, pass)).pipe(
+      catchError(this.hundleErrors)
+    );
   }
   public logout() {
     return auth.signOut();
@@ -36,10 +38,8 @@ export class AuthClientsService {
   }
   //! hundle errors
   private hundleErrors(error: HttpErrorResponse) {
-    let message = 'Something bad happened; please try again later.!!';
-    if (error.error instanceof ErrorEvent) {
-      message = error.error.message;
+    if (error) {
+      return throwError(error.message);
     }
-    return throwError(message);
   }
 }

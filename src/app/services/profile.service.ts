@@ -25,4 +25,7 @@ export class ProfileService {
           };
     return data;
   }
+  public removeProfile() {
+    localStorage.removeItem('profile');
+  }
 }
