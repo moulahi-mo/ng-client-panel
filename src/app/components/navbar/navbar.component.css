@@ -16,4 +16,8 @@
 .navbar-collapse li a:hover {
   background-color: transparent;
 }
+
+li {
+  display: none;
+}
 /*# sourceMappingURL=navbar.component.css.map */

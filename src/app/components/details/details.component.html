@@ -12,7 +12,6 @@
     </div>
     <div class="d-flex">
       <a
-        (click)="editClient()"
         [routerLink]="['/edit', client.id]"
         [queryParams]="{ action: 'edit', balance: client.balance }"
         class="waves-effect waves-light btn mr-2"
@@ -57,8 +56,15 @@
         </ul>
       </article>
       <article class="col-4 d-flex flex-column align-self-center">
-        <h4 class="text-danger text-center lead font-weight-bold">
-          Balance : {{ client.balance | currency: "EUR":"symbol":"4.0" }}
+        <h4
+          [hidden]="!client.balance"
+          [ngStyle]="{
+            color:
+              client.balance != null && client.balance > 100 ? 'green' : 'red'
+          }"
+          class="text-center lead font-weight-bold"
+        >
+          Balance : {{ client.balance | currency: "EUR":"symbol" }}
 
           <a
             (click)="isBalanced = !isBalanced"

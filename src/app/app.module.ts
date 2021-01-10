@@ -21,6 +21,7 @@ import { AddClientComponent } from './components/add-client/add-client.component
 import { DetailsComponent } from './components/details/details.component';
 import { DbUsersService } from './services/db-users.service';
 import { SettingsService } from './services/settings.service';
+import { ProfileService } from './services/profile.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +47,7 @@ import { SettingsService } from './services/settings.service';
     AuthClientsService,
     DbUsersService,
     SettingsService,
+    ProfileService,
   ],
   bootstrap: [AppComponent],
 })

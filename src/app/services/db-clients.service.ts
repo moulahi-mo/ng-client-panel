@@ -16,7 +16,9 @@ export class DbClientsService implements OnInit {
   ngOnInit() {}
 
   public getClientById(id: string): Observable<any> {
-    return from(db.collection('clients').doc(id).get());
+    return from(db.collection('clients').doc(id).get()).pipe(
+      catchError(this.hundleErrors)
+    );
   }
 
   public getClients(): Observable<{}> {

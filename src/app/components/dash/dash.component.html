@@ -35,7 +35,7 @@
       class="col-sm-6 col-12 order-1 order-sm-2 my-4 my-sm-0 d-flex justify-content-around align-items-center"
     >
       <span class="orange-text text-darken-4 flow-text z-depth-5 p-2">
-        Total Balance : {{ total | currency: "EUR":"symbol":"4.0" }}
+        Total Balance : {{ total | currency: "EUR":"symbol" }}
       </span>
       <i
         (click)="isCard = !isCard"

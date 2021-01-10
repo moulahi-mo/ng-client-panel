@@ -1,4 +1,4 @@
-<section class="m-auto mt-5" *ngIf="client">
+<section class="m-auto mt-5" *ngIf="client && !isError">
   <h2
     class="orange-text text-darken-4 flow-text d-flex justify-content-center my-5 mb-5"
   >
@@ -7,10 +7,21 @@
   </h2>
   <article class="d-flex justify-content-between mt-3">
     <div class="d-flex">
-      <i [routerLink]="['/dashboard']" class="material-icons small"
+      <i
+        *ngIf="query.action !== 'edit'"
+        [routerLink]="['/dashboard']"
+        class="material-icons small"
         >arrow_back</i
       >
-      <p class="orange-text lead">Back to Dashboard</p>
+      <i
+        *ngIf="query.action == 'edit'"
+        [routerLink]="['/client', client.id]"
+        class="material-icons small"
+        >arrow_back</i
+      >
+      <p class="orange-text lead">
+        Back to {{ query.action == "edit" ? "Edit Page" : "Dashboard" }}
+      </p>
     </div>
   </article>
   <!--?  client add success-->
@@ -126,6 +137,7 @@
       </div>
       <div class="input-field col s12 l6">
         <input
+          [disabled]="query.action == 'edit' ? balanceEdit : balanceAdd"
           [ngClass]="{
             valid: balance.valid,
             invalid: balance.invalid && (balance.dirty || balance.touched)
@@ -137,6 +149,7 @@
           type="number"
           id="balance"
           name="balance"
+          [value]="{}"
         />
         <label [ngClass]="{ active: query.action == 'edit' }">Balance</label>
         <small
@@ -158,9 +171,9 @@
         }}</i>
       </button>
     </form>
-    <!-- ? if error -->
-    <div *ngIf="isError" class="alert alert-danger text-center">
-      <h4>{{ isError }}</h4>
-    </div>
   </div>
 </section>
+<!-- ? if error -->
+<div *ngIf="isError" class="section mt-5 alert alert-danger text-center">
+  <h4>{{ isError }}</h4>
+</div>

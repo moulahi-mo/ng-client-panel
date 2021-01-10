@@ -21,7 +21,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav ml-auto">
-        <li *ngIf="isLogin" class="nav-item">
+        <li [ngClass]="{ 'd-block': isLogin }" *ngIf="isLogin" class="nav-item">
           <a
             class="nav-link"
             routerLinkActive="active"
@@ -30,7 +30,7 @@
             >Dashboard</a
           >
         </li>
-        <li *ngIf="isLogin" class="nav-item">
+        <li [ngClass]="{ 'd-block': isLogin }" *ngIf="isLogin" class="nav-item">
           <a
             class="nav-link"
             routerLinkActive="active"
@@ -42,7 +42,7 @@
         <li
           *ngIf="!isLogin"
           class="nav-item"
-          [ngClass]="{ invisible: isLogin }"
+          [ngClass]="{ 'd-block': !isLogin }"
         >
           <a
             *ngIf="!register"
@@ -57,7 +57,7 @@
         <li
           *ngIf="!isLogin"
           class="nav-item"
-          [ngClass]="{ invisible: isLogin }"
+          [ngClass]="{ 'd-block': !isLogin }"
         >
           <a
             class="nav-link"
@@ -68,7 +68,11 @@
             >Login</a
           >
         </li>
-        <li *ngIf="isLogin" class="nav-item dropdown">
+        <li
+          [ngClass]="{ 'd-block': isLogin }"
+          *ngIf="isLogin"
+          class="nav-item dropdown"
+        >
           <a
             routerLinkActive="active"
             routerLinkAvtiveOptions="{exact:true}"
@@ -79,7 +83,7 @@
             Account
           </a>
           <ul class="dropdown-content" id="navbarDropdownMenuLink">
-            <li>
+            <li [ngClass]="{ 'd-block': isLogin }">
               <a
                 class="text-dark text-decoration-none"
                 routerLinkActive="active"
@@ -88,7 +92,7 @@
                 >Profile</a
               >
             </li>
-            <li>
+            <li [ngClass]="{ 'd-block': isLogin }">
               <a
                 (click)="logout()"
                 class="text-dark text-decoration-none"

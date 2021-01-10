@@ -3,11 +3,14 @@
     class="my-3 orange-text text-darken-4 flow-text d-flex justify-content-center"
   >
     <i class="material-icons small mr-2">portrait</i>
-    Profile
+    Profile <br />
   </h2>
+  <p class="my-2 flow-text blue-text">Uid : {{ profile.id }}</p>
   <div class="collection mt-3">
-    <a class="collection-item active flow-text"> {{ profile?.name }} </a>
-    <a class="collection-item lead">{{ profile?.email }}</a>
-    <a class="collection-item lead text-muted">{{ profile?.password }}</a>
+    <a class="collection-item active flow-text"> Name : {{ profile.name }} </a>
+    <a class="collection-item lead">Email : {{ profile.email }}</a>
+    <a class="collection-item lead text-muted"
+      >password : {{ profile.password }}</a
+    >
   </div>
 </section>

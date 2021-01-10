@@ -22,4 +22,15 @@ export class SettingsService {
           };
     return of(set);
   }
+  public getLocalSet() {
+    const data =
+      localStorage.getItem('settings') !== null
+        ? JSON.parse(localStorage.getItem('settings'))
+        : {
+            registration: false,
+            balanceAdd: false,
+            balanceEdit: false,
+          };
+    return data;
+  }
 }

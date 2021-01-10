@@ -75,6 +75,7 @@ export class AuthComponent implements OnInit {
           if (cre.user.uid) {
             this.dbU.getUser(cre.user.uid).subscribe((doc) => {
               console.log(doc, doc?.id, 'user login');
+
               // this.user = {
               //   id: doc?.id,
               //   name: doc?.data().name,

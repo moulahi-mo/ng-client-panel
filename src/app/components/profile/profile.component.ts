@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/models';
 import { AuthClientsService } from 'src/app/services/auth-clients.service';
+import { ProfileService } from 'src/app/services/profile.service';
 
 import { DbUsersService } from '../../services/db-users.service';
-var list;
+let m: User;
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -11,32 +12,50 @@ var list;
 })
 export class ProfileComponent implements OnInit {
   profile: User;
-
-  listUser: User[] = [];
-  constructor(private auth: AuthClientsService, private dbU: DbUsersService) {}
+  id: string = null;
+  listUser: User[];
+  constructor(
+    private auth: AuthClientsService,
+    private dbU: DbUsersService,
+    private prof: ProfileService
+  ) {}
 
   ngOnInit() {
-    this.profile = {
-      id: null,
-      name: null,
-      email: null,
-      password: null,
-    };
+    //! method 1 using local storage
+    this.profile = this.prof.getProfile();
 
-    this.auth.MakeAuthstateObservable().subscribe((user) => {
-      console.log('user logged in ', user.uid);
-      if (user.uid) {
-        this.dbU.getUser(user.uid).subscribe(function (doc) {
-          this.profile = {
-            id: doc.id,
-            name: doc.data().name,
-            email: doc.data().email,
-            password: doc.data().password,
-          };
+    //! method passing by data base getting the infos user after loggin
+    // this.auth.MakeAuthstateObservable().subscribe((user) => {
+    //   this.listUser = [];
+    //   console.log('user logged in ', user.uid);
+    //   // if (user.uid) {
+    //   this.id = user.uid;
+    //   if (this.id) {
+    //     this.dbU.getUser(this.id).subscribe(function (doc) {
+    //       m = {
+    //         id: doc.id,
+    //         name: doc.data().name,
+    //         email: doc.data().email,
+    //         password: doc.data().password,
+    //       };
 
-          console.log('last', this.profile);
-        });
-      }
-    });
+    //       this.listUser?.push(this.profile);
+    //       // console.trace('last', this.profile, this.listUser);
+    //     });
+    //   }
+    // });
+    // if (m != null || m != undefined) {
+    //   console.log(m);
+    //   this.profile = m;
+    // }
+
+    // // } else {
+    // this.profile = {
+    //   id: null,
+    //   name: null,
+    //   email: null,
+    //   password: null,
+    // };
+    // // }
   }
 }
