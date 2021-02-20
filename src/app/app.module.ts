@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { RoutingRoutingModule } from './routing.module';
@@ -22,6 +22,7 @@ import { DetailsComponent } from './components/details/details.component';
 import { DbUsersService } from './services/db-users.service';
 import { SettingsService } from './services/settings.service';
 import { ProfileService } from './services/profile.service';
+import { TokenInterceptor } from './services/token.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +49,7 @@ import { ProfileService } from './services/profile.service';
     DbUsersService,
     SettingsService,
     ProfileService,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

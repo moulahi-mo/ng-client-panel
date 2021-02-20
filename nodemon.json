@@ -1,0 +1,5 @@
+{
+  "env": {
+    "mongoKey": "mongodb+srv://admin:123@client-panel.tnm8m.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+  }
+}

@@ -1,28 +1,65 @@
 import { Injectable } from '@angular/core';
 import { auth, User } from '../models/models';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Observable, from, throwError, Observer } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  Observable,
+  from,
+  throwError,
+  Observer,
+  BehaviorSubject,
+  of,
+} from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { importType } from '@angular/compiler/src/output/output_ast';
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthClientsService {
-  constructor() {}
+  isAuthListener = new BehaviorSubject<{ auth: boolean; uid: string }>({
+    auth: false,
+    uid: null,
+  });
+  isAuth: boolean = false;
+  token: string = null;
+  constructor(private http: HttpClient) {}
 
-  public signUp(email: string, pass: string): Observable<any> {
-    return from(auth.createUserWithEmailAndPassword(email, pass));
+  public getToken() {
+    return this.token;
   }
-  public login(email: string, pass: string): Observable<any> {
-    return from(auth.signInWithEmailAndPassword(email, pass)).pipe(
-      catchError(this.hundleErrors)
-    );
+  public signUp(user: User): Observable<any> {
+    // return from(auth.createUserWithEmailAndPassword(email, pass));
+    return this.http
+      .post<User>(environment.apiUrl + 'auth/signup', user)
+      .pipe(catchError(this.hundleErrors));
+  }
+  public login(email: string, password: string): Observable<any> {
+    // return from(auth.signInWithEmailAndPassword(email, pass))
+    return this.http
+      .post<{ email: string; password: string }>(
+        environment.apiUrl + 'auth/login',
+        { email, password }
+      )
+      .pipe(
+        tap((data: any) => {
+          this.token = data.token;
+          if (data.token) {
+            this.isAuth = true;
+            this.isAuthListener.next({ auth: true, uid: data.userInfos._id });
+          }
+        }),
+        catchError(this.hundleErrors)
+      );
   }
   public logout() {
-    return auth.signOut();
+    this.token = null;
+    this.isAuthListener.next({ auth: false, uid: null });
+    this.isAuth = false;
+    // return auth.signOut();
   }
-  public authState(): Observable<any> {
-    return auth.onAuthStateChanged();
+  public authState() {
+    // return auth.onAuthStateChanged();
+    return this.isAuth;
   }
 
   //! auth tracking state changed

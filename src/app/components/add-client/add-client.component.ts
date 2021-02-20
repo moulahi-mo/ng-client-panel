@@ -60,13 +60,16 @@ export class AddClientComponent implements OnInit {
       this.dbC.getClientById(this.id).subscribe(
         (doc) => {
           this.client = {
-            id: doc.id,
-            firstName: doc.data().firstName,
-            lastName: doc.data().lastName,
-            email: doc.data().email,
-            phone: doc.data().phone,
+            id: doc._id,
+            firstName: doc.firstName,
+            lastName: doc.lastName,
+            email: doc.email,
+            phone: doc.phone,
+
+            created: doc.createdAt,
+
             balance: !this.balanceEdit ? this.query.balance : 0,
-            created: firebase.firestore.Timestamp.fromDate(new Date()),
+            // created: firebase.firestore.Timestamp.fromDate(new Date()),
           };
         },
         (err) => (this.isError = err)

@@ -35,15 +35,15 @@ export class NavbarComponent implements OnInit {
     console.log(this.register);
   }
   public authVerif() {
-    this.auth.MakeAuthstateObservable().subscribe((user) => {
-      if (user) {
+    this.auth.isAuthListener.subscribe((user) => {
+      if (user.auth) {
         this.dbU.getUser(user.uid).subscribe((doc) => {
-          console.log(doc.id, doc.data().email, 'person here');
+          console.log(doc.id, doc.email, 'person here');
           this.profile = {
-            id: doc.id,
-            name: doc.data().name,
-            email: doc.data().email,
-            password: doc.data().password,
+            id: doc._id,
+            name: doc.name,
+            email: doc.email,
+            password: doc.password,
           };
           this.prof.setProfile(this.profile);
         });

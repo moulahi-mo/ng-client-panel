@@ -39,23 +39,24 @@ export class AuthComponent implements OnInit {
     // * IF SIGNUP **************************************
     if (this.query.action === 'register') {
       //! register to signup auth
-      this.auth.signUp(form.value.email, form.value.password).subscribe(
+      this.auth.signUp(form.value).subscribe(
         (cre) => {
           //!set the user with the new uid
           this.user = {
-            id: cre.user.uid,
-            name: form.value.name,
-            email: form.value.email,
-            password: form.value.password,
-            cpassword: form.value.cpassword,
+            id: cre._id,
+            name: cre.name,
+            email: cre.email,
+            password: cre.password,
+            cpassword: cre.password,
           };
           this.users.unshift(this.user);
+          console.log(this.users, 'user add to user db');
+          //! after signup success auto redirect to dashbord
+          this.route.navigate(['/dashboard']);
           //! add user to db
-          this.dbU.addUser(this.user).subscribe((data) => {
-            console.log(data, 'user add to user db');
-            //! after signup success auto redirect to dashbord
-            this.route.navigate(['/dashboard']);
-          });
+          // this.dbU.addUser(this.user).subscribe((data) => {
+
+          // });
 
           console.log(this.user);
           // ! changing states
@@ -70,10 +71,10 @@ export class AuthComponent implements OnInit {
       //! login auth
       this.auth.login(form.value.email, form.value.password).subscribe(
         (cre) => {
-          console.log(cre.user.uid);
+          console.log(cre);
           //! get the user infos db ny uid after login
-          if (cre.user.uid) {
-            this.dbU.getUser(cre.user.uid).subscribe((doc) => {
+          if (cre.userInfos) {
+            this.dbU.getUser(cre.userInfos._id).subscribe((doc) => {
               console.log(doc, doc?.id, 'user login');
 
               // this.user = {

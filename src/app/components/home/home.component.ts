@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthClientsService } from 'src/app/services/auth-clients.service';
 
 @Component({
@@ -7,13 +8,14 @@ import { AuthClientsService } from 'src/app/services/auth-clients.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   isAuth: boolean = false;
   constructor(private auth: AuthClientsService, private route: Router) {}
+  unsb: Subscription;
 
   ngOnInit(): void {
-    this.auth.MakeAuthstateObservable().subscribe((user) => {
-      if (user) {
+    this.unsb = this.auth.isAuthListener.subscribe((user) => {
+      if (user.auth) {
         this.isAuth = true;
 
         this.route.navigate(['/dashboard']);
@@ -21,5 +23,8 @@ export class HomeComponent implements OnInit {
         this.isAuth = false;
       }
     });
+  }
+  ngOnDestroy() {
+    this.unsb.unsubscribe();
   }
 }

@@ -38,15 +38,16 @@ export class DashComponent implements OnInit {
     this.isLoading = true;
     this.dbS.getClients().subscribe(
       (data) => {
+        console.log(data);
         data.docs.forEach((doc) => {
           this.client = {
-            id: doc.id,
-            firstName: doc.data().firstName,
-            lastName: doc.data().lastName,
-            email: doc.data().email,
-            phone: doc.data().phone,
-            balance: doc.data().balance,
-            created: doc.data().created.toDate(),
+            id: doc._id,
+            firstName: doc.firstName,
+            lastName: doc.lastName,
+            email: doc.email,
+            phone: doc.phone,
+            balance: doc.balance,
+            created: doc.createdAt,
           };
           this.clients.unshift(this.client);
           this.totalBalance();

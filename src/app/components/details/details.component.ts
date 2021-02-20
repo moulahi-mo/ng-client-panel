@@ -33,15 +33,15 @@ export class DetailsComponent implements OnInit {
     // *get the id params link
     const id = this.route.snapshot.paramMap.get('id');
     //* get client by id from db
-    this.dbC.getClientById(id).subscribe((doc) => {
+    this.dbC.getClientById(id).subscribe((doc: any) => {
       this.client = {
-        id: doc.id,
-        firstName: doc.data().firstName,
-        lastName: doc.data().lastName,
-        email: doc.data().email,
-        phone: doc.data().phone,
-        balance: doc.data().balance,
-        created: doc.data().created.toDate(),
+        id: doc._id,
+        firstName: doc.firstName,
+        lastName: doc.lastName,
+        email: doc.email,
+        phone: doc.phone,
+        balance: doc.balance,
+        created: doc.createdAt,
       };
     });
   }
