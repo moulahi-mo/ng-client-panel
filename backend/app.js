@@ -50,17 +50,29 @@ app.use((req, res, next) => {
 
   next();
 });
+//! static folders
+app.use(express.static(path.join(__dirname, "uploads")));
+app.use("/", express.static(path.join(__dirname, "angular")));
+
 //! routes
 
 app.use("/api/clients", ClientsRouter);
 
 app.use("/api/auth", authRouter);
 
-// ! special midlleware
+// app.use('/upload',uploadRouter);
+
+//! angular middleware
 
 app.use((req, res) => {
-  res.status(404).json({ message: "page not found" });
+  res.status(200).sendFile(path.join(__dirname, "angular", "index.html"));
 });
+
+// ! special midlleware
+
+// app.use((req, res) => {
+//   res.status(404).json({ message: "page not found" });
+// });
 
 app.use((err, req, res, next) => {
   res.status(500).send("someting bad happned !");
