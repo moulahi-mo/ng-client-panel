@@ -22,19 +22,25 @@ export class AuthClientsService {
   });
   isAuth: boolean = false;
   token: string = null;
+  uid: string = null;
+  clearTime: any;
   constructor(private http: HttpClient) {}
 
+  public getUid() {
+    return this.uid;
+  }
+  public authState() {
+    return this.isAuth;
+  }
   public getToken() {
     return this.token;
   }
   public signUp(user: User): Observable<any> {
-    // return from(auth.createUserWithEmailAndPassword(email, pass));
     return this.http
       .post<User>(environment.apiUrl + 'auth/signup', user)
       .pipe(catchError(this.hundleErrors));
   }
   public login(email: string, password: string): Observable<any> {
-    // return from(auth.signInWithEmailAndPassword(email, pass))
     return this.http
       .post<{ email: string; password: string }>(
         environment.apiUrl + 'auth/login',
@@ -43,9 +49,16 @@ export class AuthClientsService {
       .pipe(
         tap((data: any) => {
           this.token = data.token;
+
           if (data.token) {
             this.isAuth = true;
+            this.uid = data.userInfos._id;
             this.isAuthListener.next({ auth: true, uid: data.userInfos._id });
+            //! perssiste token
+            const now = new Date();
+            const duration = new Date(now.getTime() + data.expires * 1000);
+            this.setLocalStorage(this.token, duration, this.uid);
+            this.timeOut(duration);
           }
         }),
         catchError(this.hundleErrors)
@@ -55,24 +68,72 @@ export class AuthClientsService {
     this.token = null;
     this.isAuthListener.next({ auth: false, uid: null });
     this.isAuth = false;
-    // return auth.signOut();
-  }
-  public authState() {
-    // return auth.onAuthStateChanged();
-    return this.isAuth;
+    this.uid = null;
+    this.clearLocalStorage();
+    clearTimeout(this.clearTime);
   }
 
-  //! auth tracking state changed
-  MakeAuthstateObservable(): Observable<any> {
-    const authState = Observable.create((observer: Observer<any>) => {
-      auth.onAuthStateChanged(
-        (user) => observer.next(user),
-        (error) => observer.error(error),
-        () => observer.complete()
-      );
-    });
-    return authState;
+  //! clear local storage
+  public clearLocalStorage() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expires');
+    localStorage.removeItem('uid');
   }
+
+  //! set local storage
+  public setLocalStorage(token: string, expires: Date, uid: string) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('expires', expires.toString());
+    localStorage.setItem('uid', uid);
+  }
+
+  //! get local storage
+  public getLocalStorage() {
+    const token = localStorage.getItem('token')
+      ? localStorage.getItem('token')
+      : null;
+    const expires = localStorage.getItem('expires')
+      ? localStorage.getItem('expires')
+      : null;
+    const uid = localStorage.getItem('uid')
+      ? localStorage.getItem('uid')
+      : null;
+
+    if (token && expires && uid) {
+      return {
+        token,
+        expires,
+        uid,
+      };
+    } else {
+      return;
+    }
+  }
+
+  public timeOut(dur: Date) {
+    this.clearTime = setTimeout(() => {
+      this.logout;
+    }, dur.getTime() * 1000);
+  }
+
+  public autoAuth() {
+    const authState = this.getLocalStorage();
+    console.log(authState);
+    if (authState.token) {
+      const now = new Date();
+      const diffDur = new Date(authState.expires).getTime() - now.getTime();
+      console.log(diffDur, 'difference');
+      if (diffDur > 0) {
+        this.token = authState.token;
+        this.isAuthListener.next({ auth: true, uid: this.uid });
+        this.isAuth = true;
+        this.timeOut(new Date(diffDur / 1000));
+      }
+    } else {
+      return;
+    }
+  }
+
   //! hundle errors
   private hundleErrors(error: HttpErrorResponse) {
     if (error) {

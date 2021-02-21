@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Client, Ui } from 'src/app/models/models';
+import { AuthClientsService } from 'src/app/services/auth-clients.service';
 import { DbClientsService } from 'src/app/services/db-clients.service';
 
 @Component({
@@ -15,9 +16,13 @@ export class DashComponent implements OnInit {
   isCard: boolean = false;
   isLoading: boolean = false;
   isError: string = null;
-  constructor(private dbS: DbClientsService) {}
+  constructor(
+    private dbS: DbClientsService,
+    private auth: AuthClientsService
+  ) {}
 
   ngOnInit(): void {
+    this.auth.autoAuth();
     this.total = 0;
     this.clients = [];
 

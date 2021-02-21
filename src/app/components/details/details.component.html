@@ -12,12 +12,16 @@
     </div>
     <div class="d-flex">
       <a
+        *ngIf="client.creator === uid"
         [routerLink]="['/edit', client.id]"
         [queryParams]="{ action: 'edit', balance: client.balance }"
         class="waves-effect waves-light btn mr-2"
         ><i class="material-icons left">post_add</i>Edit</a
       >
-      <a (click)="deleteClient()" class="waves-effect waves-light btn"
+      <a
+        *ngIf="client.creator === uid"
+        (click)="deleteClient()"
+        class="waves-effect waves-light btn"
         ><i class="material-icons left">remove_circle</i>Delete</a
       >
     </div>

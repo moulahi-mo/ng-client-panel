@@ -44,7 +44,11 @@ const AUTH_LOGIN_POST = (req, res, next) => {
       if (compareResult) {
         //! token
         const token = jwt.sign(
-          { email: userFetched.email, password: userFetched.password },
+          {
+            email: userFetched.email,
+            password: userFetched.password,
+            uid: userFetched._id,
+          },
           "ioidzjdihzhih251",
           { expiresIn: "1h" }
         );

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Client } from 'src/app/models/models';
+import { AuthClientsService } from 'src/app/services/auth-clients.service';
 import { DbClientsService } from 'src/app/services/db-clients.service';
 
 @Component({
@@ -14,13 +15,16 @@ export class DetailsComponent implements OnInit {
   isError: string = null;
   isBalanced: boolean = false;
   isUpBalanced: boolean = false;
+  uid: string = null;
   constructor(
     private dbC: DbClientsService,
     private route: ActivatedRoute,
-    private nav: Router
+    private nav: Router,
+    private auth: AuthClientsService
   ) {}
 
   ngOnInit(): void {
+    this.uid = this.auth.getUid();
     this.client = {
       id: null,
       firstName: null,
@@ -29,6 +33,7 @@ export class DetailsComponent implements OnInit {
       phone: null,
       balance: null,
       created: new Date(),
+      creator: null,
     };
     // *get the id params link
     const id = this.route.snapshot.paramMap.get('id');
@@ -42,6 +47,7 @@ export class DetailsComponent implements OnInit {
         phone: doc.phone,
         balance: doc.balance,
         created: doc.createdAt,
+        creator: doc.creator,
       };
     });
   }

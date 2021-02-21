@@ -38,6 +38,7 @@ export interface Client {
   phone: number;
   balance?: number;
   created: Date;
+  creator?: string;
 }
 export type User = {
   id?: string;

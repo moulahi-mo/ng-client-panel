@@ -30,6 +30,10 @@ const clientSchema = mongoose.Schema(
       type: Boolean,
       required: false,
     },
+    creator: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Auth",
+    },
   },
   { timestamps: true }
 );

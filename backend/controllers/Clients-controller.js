@@ -1,7 +1,7 @@
 const Client = require("../models/clients");
 //! post
-const Client_ADD_POST = (req, res) => {
-  const client = new Client(req.body);
+const Client_ADD_POST = (req, res, next) => {
+  const client = new Client({ ...req.body, creator: req.userId });
 
   client
     .save()
@@ -35,19 +35,29 @@ const Client_BYID_GET = (req, res, next) => {
 //! delete
 const Client_BYID_DELETE = (req, res, next) => {
   const id = req.params.id;
-  Client.deleteOne({ _id: id })
+  Client.deleteOne({ _id: id, creator: req.userId })
     .then((data) => {
       console.log(data);
-      res.status(200).json({ message: "doc deleted" + " " + data });
+      if (data.n > 0) {
+        console.log(data);
+        res.status(200).json({ message: "doc deleted" + " " + data });
+      } else {
+        res.status(401).json({ message: "not authorized for this action" });
+      }
     })
     .catch(next);
 };
 
 //! put
 const Client_BYID_UPDATE = (req, res, next) => {
-  Client.updateOne({ _id: req.params.id }, req.body)
+  Client.updateOne({ _id: req.params.id, creator: req.userId }, req.body)
     .then((data) => {
-      res.status(200).json(data);
+      console.log(data);
+      if (data.n > 0) {
+        res.status(200).json(data);
+      } else {
+        res.status(401).json({ message: "not authorized for this action" });
+      }
     })
     .catch(next);
 };
